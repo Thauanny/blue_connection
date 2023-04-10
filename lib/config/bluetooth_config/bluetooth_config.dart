@@ -1,73 +1,96 @@
-import 'package:flutter/foundation.dart';
+import 'package:blue_connection/config/bluetooth_config/device_status.dart';
+import 'package:blue_connection/src/module/home/domain/entities/blue_device.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
-class BluetoothConfig {
-  BluetoothState bluetoothState = BluetoothState.UNKNOWN;
+import 'bluetooth_status.dart';
 
+class BluetoothConfigAdapter {
   final FlutterBluetoothSerial bluetoothSerial =
       FlutterBluetoothSerial.instance;
-
   BluetoothConnection? connection;
 
-  bool _isEnabled = false;
+  BluetoothConfigAdapter._();
 
-  BluetoothConfig._();
+  static final instance = BluetoothConfigAdapter._();
 
-  static final instance = BluetoothConfig._();
+//TODO adicionar permission handler para lidar com todas as permissões antes de iniciar o app
 
-  bool get isEnabled => _isEnabled;
-
-  bool get isConnected => (connection != null) && (connection!.isConnected);
-
-  Future<bool?> requestEnable() async {
-    return await bluetoothSerial.state.then((bluetoothState) async {
-      if (bluetoothState == BluetoothState.STATE_OFF) {
-        if (await bluetoothSerial.requestEnable() ?? false) {
-          _isEnabled = true;
-          return true;
-        }
-      } else {
-        _isEnabled = true;
-        return true;
-      }
-      return true;
-    });
-  }
-
-  Future<bool?> requestDisable() async {
-    return await bluetoothSerial.state.then(
-      (bluetoothState) async {
-        if (bluetoothState == BluetoothState.STATE_ON) {
-          if (await bluetoothSerial.requestDisable() ?? false) {
-            _isEnabled = false;
-            return false;
-          }
+  Future<BluetoothStatus> requestEnable() async {
+    BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
+    await bluetoothSerial.requestEnable().then(
+      (value) {
+        if (value ?? false) {
+          bluetoothStatus = BluetoothStatus.enabled;
         } else {
-          _isEnabled = false;
-          return false;
+          bluetoothStatus = BluetoothStatus.disabled;
         }
-        return true;
       },
+      onError: (_) => bluetoothStatus = BluetoothStatus.error,
     );
+
+    return bluetoothStatus;
   }
 
-  void disposeBluetoth() {
-    if (isConnected) {
-      connection!.dispose();
-      connection = null;
-    }
+  Future<BluetoothStatus> requestDisable() async {
+    late BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
+    await bluetoothSerial.requestDisable().then(
+      (value) {
+        if (value ?? false) {
+          bluetoothStatus = BluetoothStatus.disabled;
+        } else {
+          bluetoothStatus = BluetoothStatus.enabled;
+        }
+      },
+      onError: (_) => bluetoothStatus = BluetoothStatus.error,
+    );
+
+    return bluetoothStatus;
   }
 
-  Future<List<BluetoothDevice>> pairedDevices() async {
-    List<BluetoothDevice> devices = [];
-    if (isConnected) {
-      try {
-        devices = await bluetoothSerial.getBondedDevices();
-      } on PlatformException {
-        debugPrint("Error");
-      }
+  Future<List<Device>> pairedDevices() async {
+    List<Device> devices = [];
+    try {
+      await bluetoothSerial.getBondedDevices().then((value) {
+        for (var element in value) {
+          devices.add(
+            Device(
+              address: element.address,
+              isConnected: element.isConnected,
+              name: element.name ?? 'default',
+            ),
+          );
+        }
+      }, onError: (_) => devices = []);
+    } on PlatformException {
+      debugPrint("Error PlatformException pairedDevices");
     }
+
     return devices;
+  }
+
+  Future<DeviceStatus> connectDevice(String address) async {
+    var a = await BluetoothConnection.toAddress(address);
+    print(a);
+    return connection != null
+        ? connection!.isConnected
+            ? DeviceStatus.connected
+            : DeviceStatus.disconnected
+        : DeviceStatus.notConnected;
+  }
+
+  Future<DeviceStatus> disconnectDevice() async {
+    await connection?.close().then((value) {
+      dispose();
+    });
+    return connection == null
+        ? DeviceStatus.disconnected
+        : DeviceStatus.connected;
+  }
+
+  void dispose() {
+    if (connection != null) connection!.dispose();
+    connection = null;
   }
 }
