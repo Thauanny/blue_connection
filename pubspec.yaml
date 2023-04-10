@@ -34,11 +34,14 @@ dependencies:
   flutter_speech: ^2.0.0
   cupertino_icons: ^1.0.2
   flutter_modular: ^5.0.3
+  bloc: ^8.1.1
+  flutter_bloc: ^8.1.2
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

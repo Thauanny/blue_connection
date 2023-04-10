@@ -49,7 +49,7 @@ class BluetoothConfigAdapter {
     return bluetoothStatus;
   }
 
-  Future<List<Device>> pairedDevices() async {
+  Future<List<Device>> bondedDevices() async {
     List<Device> devices = [];
     try {
       await bluetoothSerial.getBondedDevices().then((value) {
