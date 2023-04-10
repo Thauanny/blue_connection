@@ -4,6 +4,8 @@ import 'package:blue_connection/src/module/home/domain/entities/blue_device.dart
 import 'package:blue_connection/src/module/home/presentation/controller/home_page_controller.dart';
 import 'package:flutter/material.dart';
 
+import 'circular_button.dart';
+
 class VerticalPage extends StatefulWidget {
   const VerticalPage({super.key});
 
@@ -69,19 +71,66 @@ class _VerticalPageState extends State<VerticalPage> {
             ],
           ),
           ValueListenableBuilder(
-              valueListenable: controller.deviceStatus,
-              builder: (context, status, child) {
-                return ElevatedButton(
-                  onPressed: !status.isConected
-                      ? () {
-                          controller.connectDevice(_device);
-                        }
-                      : () {
-                          controller.disconnectDevice();
-                        },
-                  child: Text(status.name),
-                );
-              }),
+            valueListenable: controller.deviceStatus,
+            builder: (context, status, child) {
+              return ElevatedButton(
+                onPressed: !status.isConected
+                    ? () {
+                        controller.connectDevice(_device);
+                      }
+                    : () {
+                        controller.disconnectDevice();
+                      },
+                child: Text(status.name),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(36),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //todo: verificar tamanho
+                  CircularButton(
+                    height: 100,
+                    width: 100,
+                    onTap: () {},
+                    icon: Icons.keyboard_arrow_up_rounded,
+                    backgroundColor: Colors.green,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CircularButton(
+                        height: 100,
+                        width: 100,
+                        onTap: () {},
+                        icon: Icons.keyboard_arrow_left_rounded,
+                        backgroundColor: Colors.red,
+                      ),
+                      CircularButton(
+                        height: 100,
+                        width: 100,
+                        onTap: () {},
+                        icon: Icons.keyboard_arrow_right_rounded,
+                        backgroundColor: Colors.blue,
+                      ),
+                    ],
+                  ),
+                  CircularButton(
+                    height: 100,
+                    width: 100,
+                    onTap: () {},
+                    icon: Icons.keyboard_arrow_down_rounded,
+                    backgroundColor: Colors.yellow[700]!,
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );
