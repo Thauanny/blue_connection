@@ -41,16 +41,18 @@ class _InitialPageState extends State<InitialPage> {
       ),
     );
   }
-}
 
-_stateListener(HomeState state) => state.maybeWhen(
-      sucessEnabledBluetooth: () {
-        Modular.to.push(
-          MaterialPageRoute(builder: (context) => const BondedDevicePage()),
-        );
-      },
-      error: () {
-        print('error');
-      },
-      orElse: () => {},
-    );
+  _stateListener(HomeState state) => state.maybeWhen(
+        sucessEnabledBluetooth: () {
+          if (mounted) {
+            Modular.to.push(
+              MaterialPageRoute(builder: (context) => const BondedDevicePage()),
+            );
+          }
+        },
+        error: () {
+          print('error');
+        },
+        orElse: () => {},
+      );
+}

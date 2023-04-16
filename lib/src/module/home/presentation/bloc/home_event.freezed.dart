@@ -22,8 +22,8 @@ mixin _$HomeEvent {
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,8 +32,8 @@ mixin _$HomeEvent {
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -42,8 +42,8 @@ mixin _$HomeEvent {
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -156,8 +156,8 @@ class _$_HomeEventEnabledBluetooth implements _HomeEventEnabledBluetooth {
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) {
     return enabledBluetooth();
   }
@@ -169,8 +169,8 @@ class _$_HomeEventEnabledBluetooth implements _HomeEventEnabledBluetooth {
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) {
     return enabledBluetooth?.call();
   }
@@ -182,8 +182,8 @@ class _$_HomeEventEnabledBluetooth implements _HomeEventEnabledBluetooth {
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) {
     if (enabledBluetooth != null) {
@@ -299,8 +299,8 @@ class _$_HomeEventDisabledBluetooth implements _HomeEventDisabledBluetooth {
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) {
     return disabledBluetooth();
   }
@@ -312,8 +312,8 @@ class _$_HomeEventDisabledBluetooth implements _HomeEventDisabledBluetooth {
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) {
     return disabledBluetooth?.call();
   }
@@ -325,8 +325,8 @@ class _$_HomeEventDisabledBluetooth implements _HomeEventDisabledBluetooth {
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) {
     if (disabledBluetooth != null) {
@@ -443,8 +443,8 @@ class _$_HomeEventRequestBondedDevices
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) {
     return requestBondedDevices();
   }
@@ -456,8 +456,8 @@ class _$_HomeEventRequestBondedDevices
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) {
     return requestBondedDevices?.call();
   }
@@ -469,8 +469,8 @@ class _$_HomeEventRequestBondedDevices
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) {
     if (requestBondedDevices != null) {
@@ -587,8 +587,8 @@ class _$_HomeEventRequestBluetoothDispose
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) {
     return requestBluetoothDispose();
   }
@@ -600,8 +600,8 @@ class _$_HomeEventRequestBluetoothDispose
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) {
     return requestBluetoothDispose?.call();
   }
@@ -613,8 +613,8 @@ class _$_HomeEventRequestBluetoothDispose
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) {
     if (requestBluetoothDispose != null) {
@@ -693,7 +693,7 @@ abstract class _$$_HomeEventRequestConnectDeviceCopyWith<$Res> {
           $Res Function(_$_HomeEventRequestConnectDevice) then) =
       __$$_HomeEventRequestConnectDeviceCopyWithImpl<$Res>;
   @useResult
-  $Res call({Device? device});
+  $Res call({Device device});
 }
 
 /// @nodoc
@@ -708,13 +708,13 @@ class __$$_HomeEventRequestConnectDeviceCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? device = freezed,
+    Object? device = null,
   }) {
     return _then(_$_HomeEventRequestConnectDevice(
-      device: freezed == device
+      device: null == device
           ? _value.device
           : device // ignore: cast_nullable_to_non_nullable
-              as Device?,
+              as Device,
     ));
   }
 }
@@ -726,7 +726,7 @@ class _$_HomeEventRequestConnectDevice
   _$_HomeEventRequestConnectDevice({required this.device});
 
   @override
-  final Device? device;
+  final Device device;
 
   @override
   String toString() {
@@ -758,8 +758,8 @@ class _$_HomeEventRequestConnectDevice
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) {
     return requestConnectDevice(device);
   }
@@ -771,8 +771,8 @@ class _$_HomeEventRequestConnectDevice
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) {
     return requestConnectDevice?.call(device);
   }
@@ -784,8 +784,8 @@ class _$_HomeEventRequestConnectDevice
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) {
     if (requestConnectDevice != null) {
@@ -853,10 +853,10 @@ class _$_HomeEventRequestConnectDevice
 }
 
 abstract class _HomeEventRequestConnectDevice implements HomeEvent {
-  factory _HomeEventRequestConnectDevice({required final Device? device}) =
+  factory _HomeEventRequestConnectDevice({required final Device device}) =
       _$_HomeEventRequestConnectDevice;
 
-  Device? get device;
+  Device get device;
   @JsonKey(ignore: true)
   _$$_HomeEventRequestConnectDeviceCopyWith<_$_HomeEventRequestConnectDevice>
       get copyWith => throw _privateConstructorUsedError;
@@ -868,6 +868,8 @@ abstract class _$$_HomeEventRequestDisconnectDeviceCopyWith<$Res> {
           _$_HomeEventRequestDisconnectDevice value,
           $Res Function(_$_HomeEventRequestDisconnectDevice) then) =
       __$$_HomeEventRequestDisconnectDeviceCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Device device});
 }
 
 /// @nodoc
@@ -878,28 +880,53 @@ class __$$_HomeEventRequestDisconnectDeviceCopyWithImpl<$Res>
       _$_HomeEventRequestDisconnectDevice _value,
       $Res Function(_$_HomeEventRequestDisconnectDevice) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? device = null,
+  }) {
+    return _then(_$_HomeEventRequestDisconnectDevice(
+      device: null == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
+              as Device,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_HomeEventRequestDisconnectDevice
     implements _HomeEventRequestDisconnectDevice {
-  _$_HomeEventRequestDisconnectDevice();
+  _$_HomeEventRequestDisconnectDevice({required this.device});
+
+  @override
+  final Device device;
 
   @override
   String toString() {
-    return 'HomeEvent.requestDisconnectDevice()';
+    return 'HomeEvent.requestDisconnectDevice(device: $device)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomeEventRequestDisconnectDevice);
+            other is _$_HomeEventRequestDisconnectDevice &&
+            (identical(other.device, device) || other.device == device));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, device);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_HomeEventRequestDisconnectDeviceCopyWith<
+          _$_HomeEventRequestDisconnectDevice>
+      get copyWith => __$$_HomeEventRequestDisconnectDeviceCopyWithImpl<
+          _$_HomeEventRequestDisconnectDevice>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -908,10 +935,10 @@ class _$_HomeEventRequestDisconnectDevice
     required TResult Function() disabledBluetooth,
     required TResult Function() requestBondedDevices,
     required TResult Function() requestBluetoothDispose,
-    required TResult Function(Device? device) requestConnectDevice,
-    required TResult Function() requestDisconnectDevice,
+    required TResult Function(Device device) requestConnectDevice,
+    required TResult Function(Device device) requestDisconnectDevice,
   }) {
-    return requestDisconnectDevice();
+    return requestDisconnectDevice(device);
   }
 
   @override
@@ -921,10 +948,10 @@ class _$_HomeEventRequestDisconnectDevice
     TResult? Function()? disabledBluetooth,
     TResult? Function()? requestBondedDevices,
     TResult? Function()? requestBluetoothDispose,
-    TResult? Function(Device? device)? requestConnectDevice,
-    TResult? Function()? requestDisconnectDevice,
+    TResult? Function(Device device)? requestConnectDevice,
+    TResult? Function(Device device)? requestDisconnectDevice,
   }) {
-    return requestDisconnectDevice?.call();
+    return requestDisconnectDevice?.call(device);
   }
 
   @override
@@ -934,12 +961,12 @@ class _$_HomeEventRequestDisconnectDevice
     TResult Function()? disabledBluetooth,
     TResult Function()? requestBondedDevices,
     TResult Function()? requestBluetoothDispose,
-    TResult Function(Device? device)? requestConnectDevice,
-    TResult Function()? requestDisconnectDevice,
+    TResult Function(Device device)? requestConnectDevice,
+    TResult Function(Device device)? requestDisconnectDevice,
     required TResult orElse(),
   }) {
     if (requestDisconnectDevice != null) {
-      return requestDisconnectDevice();
+      return requestDisconnectDevice(device);
     }
     return orElse();
   }
@@ -1003,6 +1030,12 @@ class _$_HomeEventRequestDisconnectDevice
 }
 
 abstract class _HomeEventRequestDisconnectDevice implements HomeEvent {
-  factory _HomeEventRequestDisconnectDevice() =
+  factory _HomeEventRequestDisconnectDevice({required final Device device}) =
       _$_HomeEventRequestDisconnectDevice;
+
+  Device get device;
+  @JsonKey(ignore: true)
+  _$$_HomeEventRequestDisconnectDeviceCopyWith<
+          _$_HomeEventRequestDisconnectDevice>
+      get copyWith => throw _privateConstructorUsedError;
 }

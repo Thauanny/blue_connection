@@ -2,20 +2,18 @@ import 'package:blue_connection/config/bluetooth_config/device_status.dart';
 
 class Device {
   final String name;
-  final String address;
-  final DeviceStatus status;
+  DeviceStatus status;
 
   Device({
-    required this.name,
-    required this.address,
-    required this.status,
+    this.name = 'default',
+    this.status = DeviceStatus.notConnected,
   });
 
   @override
   operator ==(Object other) {
-    return other is Device && other.address == address;
+    return other is Device && other.status == status;
   }
 
   @override
-  int get hashCode => address.hashCode;
+  int get hashCode => status.hashCode;
 }

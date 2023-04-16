@@ -19,7 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     await event.when(enabledBluetooth: () async {
       await bluetoothController.requestEnable().timeout(
-        const Duration(seconds: 2),
+        const Duration(minutes: 1),
         onTimeout: () {
           emit(HomeState.error());
         },
@@ -36,7 +36,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           : emit(HomeState.error());
     }, requestBondedDevices: () async {
       await bluetoothController.scanDevices().timeout(
-        const Duration(seconds: 2),
+        const Duration(minutes: 1),
         onTimeout: () {
           emit(HomeState.error());
         },
@@ -45,21 +45,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeState.sucessBondedDevices());
     }, requestBluetoothDispose: () {
       bluetoothController.dispose();
+      bondedDevices = [];
       emit(HomeState.sucessBluetoothDisposed());
     }, requestConnectDevice: (device) async {
-      await bluetoothController.connectDevice(device).timeout(
-        const Duration(seconds: 2),
+      await bluetoothController.connectDevice(device: device).timeout(
+        const Duration(minutes: 1),
         onTimeout: () {
           emit(HomeState.error());
         },
       );
-      bluetoothController.deviceStatus == DeviceStatus.connected
+      device.status == DeviceStatus.connected
           ? emit(HomeState.sucessDeviceConnected())
           : emit(HomeState.error());
-    }, requestDisconnectDevice: () async {
-      await bluetoothController.disconnectDevice();
+    }, requestDisconnectDevice: (device) async {
+      await bluetoothController.disconnectDevice(device: device);
 
-      bluetoothController.deviceStatus == DeviceStatus.disconnected
+      device.status == DeviceStatus.disconnected
           ? emit(HomeState.sucessDeviceDisconnected())
           : emit(HomeState.error());
     });

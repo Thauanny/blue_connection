@@ -11,8 +11,8 @@ class HomeEvent with _$HomeEvent {
   factory HomeEvent.requestBondedDevices() = _HomeEventRequestBondedDevices;
   factory HomeEvent.requestBluetoothDispose() =
       _HomeEventRequestBluetoothDispose;
-  factory HomeEvent.requestConnectDevice({required Device? device}) =
+  factory HomeEvent.requestConnectDevice({required Device device}) =
       _HomeEventRequestConnectDevice;
-  factory HomeEvent.requestDisconnectDevice() =
+  factory HomeEvent.requestDisconnectDevice({required Device device}) =
       _HomeEventRequestDisconnectDevice;
 }

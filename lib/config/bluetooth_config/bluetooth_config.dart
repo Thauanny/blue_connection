@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart'
-    hide BluetoothDevice;
+    hide BluetoothDevice, BluetoothState;
 
 import 'bluetooth_status.dart';
 
@@ -14,7 +14,9 @@ class BluetoothConfigAdapter {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   final FlutterBluetoothSerial bluetoothSerial =
       FlutterBluetoothSerial.instance;
-  List<BluetoothDevice> devices = [];
+  List<BluetoothDevice> _devices = [];
+  late StreamSubscription _subscriptionScan;
+  late StreamSubscription _subscriptionConnect;
   BluetoothConfigAdapter._();
 
   static final instance = BluetoothConfigAdapter._();
@@ -67,53 +69,56 @@ class BluetoothConfigAdapter {
   }
 
   Future<List<Device>> scanDevices() async {
-    List<Device> _devices = [];
+    List<Device> _devicesLocal = [];
 
     try {
       await flutterBlue.startScan(
         timeout: const Duration(seconds: 5),
         allowDuplicates: false,
-        scanMode: ScanMode.balanced,
       );
-      flutterBlue.scanResults.listen((results) {
+      _subscriptionScan = flutterBlue.scanResults.listen((results) {
         for (ScanResult r in results) {
-          devices.add(r.device);
+          _devices.add(r.device);
         }
       });
-      await flutterBlue.stopScan();
       await Future.delayed(const Duration(seconds: 5));
-      for (var element in devices) {
-        _devices.add(
+      await flutterBlue.stopScan();
+
+      for (var element in _devices) {
+        _devicesLocal.add(
           Device(
-              name: element.name,
-              address: '',
-              status: DeviceStatus.notConnected),
+            name: element.name,
+            status: DeviceStatus.notConnected,
+          ),
         );
       }
 
-      return _devices;
+      return _devicesLocal;
     } on PlatformException catch (e) {
       debugPrint(e.message);
       debugPrint(e.stacktrace);
-      return _devices;
+      return _devicesLocal;
     } catch (e) {
-      return _devices;
+      return _devicesLocal;
     }
   }
 
   Future<DeviceStatus> connectDevice(Device device) async {
     try {
       late DeviceStatus status;
-      BluetoothDevice _device =
-          devices.firstWhere((element) => element.name == device.name);
-      await _device
-          .connect(timeout: const Duration(seconds: 4))
-          .onError(
-            (error, stackTrace) => status = DeviceStatus.notConnected,
-          )
-          .then(
-            (value) => status = DeviceStatus.connected,
-          );
+      BluetoothDevice _deviceLocal =
+          _devices.firstWhere((element) => element.name == device.name);
+
+      _deviceLocal.connect();
+      _subscriptionConnect = flutterBlue.state.listen((results) {
+        if (results == BluetoothState.on) {
+          status = DeviceStatus.connected;
+        } else {
+          status = DeviceStatus.notConnected;
+        }
+      });
+
+      await Future.delayed(const Duration(seconds: 5));
       return status;
     } on PlatformException catch (e) {
       debugPrint(e.message);
@@ -124,26 +129,33 @@ class BluetoothConfigAdapter {
     }
   }
 
-  Future<DeviceStatus> disconnectDevice() async {
-    // try {
-    //   await connection?.close().then((value) {
-    //     dispose();
-    //   });
-    //   return connection == null
-    //       ? DeviceStatus.disconnected
-    //       : DeviceStatus.connected;
-    // } on PlatformException catch (e) {
-    //   debugPrint(e.message);
-    //   debugPrint(e.stacktrace);
-    //   return DeviceStatus.notConnected;
-    // } catch (e) {
-    //   return DeviceStatus.notConnected;
-    // }
-    return DeviceStatus.disconnected;
+  Future<DeviceStatus> disconnectDevice(Device device) async {
+    try {
+      late DeviceStatus status;
+      BluetoothDevice _deviceLocal =
+          _devices.firstWhere((element) => element.name == device.name);
+      await _deviceLocal.disconnect().onError(
+        (error, stackTrace) {
+          status = DeviceStatus.connected;
+        },
+      ).then(
+        (value) {
+          status = DeviceStatus.disconnected;
+        },
+      );
+      await Future.delayed(const Duration(seconds: 5));
+      return status;
+    } on PlatformException catch (e) {
+      debugPrint(e.message);
+      debugPrint(e.stacktrace);
+      return DeviceStatus.notConnected;
+    } catch (e) {
+      return DeviceStatus.notConnected;
+    }
   }
 
   void dispose() {
-    // if (connection != null) connection!.dispose();
-    // connection = null;
+    _devices = [];
+    _subscriptionScan.cancel();
   }
 }

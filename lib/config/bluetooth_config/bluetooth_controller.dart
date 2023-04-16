@@ -8,10 +8,8 @@ class BluetoothController {
   List<Device> _devices = <Device>[];
 
   BluetoothStatus _bluetoothStatus = BluetoothStatus.disabled;
-  DeviceStatus _deviceStatus = DeviceStatus.notConnected;
 
   BluetoothStatus get bluetoothStatus => _bluetoothStatus;
-  DeviceStatus get deviceStatus => _deviceStatus;
   List<Device> get devices => _devices;
 
   Future<void> requestEnable() async {
@@ -28,9 +26,7 @@ class BluetoothController {
   }
 
   void dispose() {
-    if (_deviceStatus.connected) {
-      bluetoothConfig.dispose();
-    }
+    bluetoothConfig.dispose();
   }
 
   Future<void> scanDevices() async {
@@ -41,17 +37,16 @@ class BluetoothController {
     }
   }
 
-  Future<void> connectDevice(Device? device) async {
-    if (device != null) {
-      if (!_deviceStatus.connected) {
-        await bluetoothConfig
-            .connectDevice(device)
-            .then((value) => _deviceStatus = value);
-      }
-    }
+  Future<void> connectDevice({required Device device}) async {
+    await bluetoothConfig.connectDevice(device).then((value) {
+      device.status = DeviceStatus.connected;
+    });
   }
 
-  Future<void> disconnectDevice() async {
-    await bluetoothConfig.disconnectDevice();
+  Future<void> disconnectDevice({required Device device}) async {
+    _devices = [];
+    await bluetoothConfig
+        .disconnectDevice(device)
+        .then((value) => device.status = value);
   }
 }
