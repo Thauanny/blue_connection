@@ -43,13 +43,18 @@ class _BondedState extends State<BondedDevicePage> {
                         title: Text(homeBloc.bondedDevices[index].name),
                         trailing: const Icon(Icons.more_vert),
                         onTap: () {
-                          Modular.to.push(
-                            MaterialPageRoute(
-                              builder: (context) => ControlPage(
-                                device: homeBloc.bondedDevices[index],
-                              ),
+                          homeBloc.add(
+                            HomeEvent.requestConnectDevice(
+                              device: homeBloc.bondedDevices[index],
                             ),
                           );
+                          // Modular.to.push(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => ControlPage(
+                          //       device: homeBloc.bondedDevices[index],
+                          //     ),
+                          //   ),
+                          // );
                         },
                       ),
                     ),
@@ -65,7 +70,7 @@ class _BondedState extends State<BondedDevicePage> {
                         ],
                       ),
                     )
-                  : const LoadingModal();
+                  : const SizedBox.expand(child: LoadingModal());
         },
       ),
     );
@@ -98,8 +103,25 @@ class _BondedState extends State<BondedDevicePage> {
             );
           }
         },
+        sucessDeviceConnected: () {
+          Modular.to.pop();
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                  'Dispositivos Encontrados: ${homeBloc.bondedDevices.length}'),
+              backgroundColor: Colors.green[600],
+            ),
+          );
+        },
         error: () {
-          print('error');
+          Modular.to.pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Um Erro aconteceu, tente novamente!'),
+              backgroundColor: Colors.red[600],
+            ),
+          );
         },
         orElse: () => {},
       );

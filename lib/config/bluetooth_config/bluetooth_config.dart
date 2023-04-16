@@ -15,38 +15,51 @@ class BluetoothConfigAdapter {
 
   static final instance = BluetoothConfigAdapter._();
 
-//TODO adicionar permission handler para lidar com todas as permissões antes de iniciar o app
-
   Future<BluetoothStatus> requestEnable() async {
     BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
-    await bluetoothSerial.requestEnable().then(
-      (value) {
-        if (value ?? false) {
-          bluetoothStatus = BluetoothStatus.enabled;
-        } else {
-          bluetoothStatus = BluetoothStatus.disabled;
-        }
-      },
-      onError: (_) => bluetoothStatus = BluetoothStatus.error,
-    );
+    try {
+      await bluetoothSerial.requestEnable().then(
+        (value) {
+          if (value ?? false) {
+            bluetoothStatus = BluetoothStatus.enabled;
+          } else {
+            bluetoothStatus = BluetoothStatus.disabled;
+          }
+        },
+        onError: (_) => bluetoothStatus = BluetoothStatus.error,
+      );
 
-    return bluetoothStatus;
+      return bluetoothStatus;
+    } on PlatformException catch (e) {
+      debugPrint(e.message);
+      debugPrint(e.stacktrace);
+      return bluetoothStatus = BluetoothStatus.error;
+    } catch (e) {
+      return bluetoothStatus = BluetoothStatus.error;
+    }
   }
 
   Future<BluetoothStatus> requestDisable() async {
     BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
-    await bluetoothSerial.requestDisable().then(
-      (value) {
-        if (value ?? false) {
-          bluetoothStatus = BluetoothStatus.disabled;
-        } else {
-          bluetoothStatus = BluetoothStatus.enabled;
-        }
-      },
-      onError: (_) => bluetoothStatus = BluetoothStatus.error,
-    );
-
-    return bluetoothStatus;
+    try {
+      await bluetoothSerial.requestDisable().then(
+        (value) {
+          if (value ?? false) {
+            bluetoothStatus = BluetoothStatus.disabled;
+          } else {
+            bluetoothStatus = BluetoothStatus.enabled;
+          }
+        },
+        onError: (_) => bluetoothStatus = BluetoothStatus.error,
+      );
+      return bluetoothStatus;
+    } on PlatformException catch (e) {
+      debugPrint(e.message);
+      debugPrint(e.stacktrace);
+      return bluetoothStatus = BluetoothStatus.error;
+    } catch (e) {
+      return bluetoothStatus = BluetoothStatus.error;
+    }
   }
 
   Future<List<Device>> bondedDevices() async {
@@ -63,30 +76,48 @@ class BluetoothConfigAdapter {
           );
         }
       }, onError: (_) => devices = []);
-    } on PlatformException {
-      debugPrint("Error PlatformException pairedDevices");
+      return devices;
+    } on PlatformException catch (e) {
+      debugPrint(e.message);
+      debugPrint(e.stacktrace);
+      return devices;
+    } catch (e) {
+      return devices;
     }
-
-    return devices;
   }
 
   Future<DeviceStatus> connectDevice(String address) async {
-    var a = await BluetoothConnection.toAddress(address);
-    print(a);
-    return connection != null
-        ? connection!.isConnected
-            ? DeviceStatus.connected
-            : DeviceStatus.disconnected
-        : DeviceStatus.notConnected;
+    try {
+      await BluetoothConnection.toAddress(address);
+      return connection != null
+          ? connection!.isConnected
+              ? DeviceStatus.connected
+              : DeviceStatus.disconnected
+          : DeviceStatus.notConnected;
+    } on PlatformException catch (e) {
+      debugPrint(e.message);
+      debugPrint(e.stacktrace);
+      return DeviceStatus.notConnected;
+    } catch (e) {
+      return DeviceStatus.notConnected;
+    }
   }
 
   Future<DeviceStatus> disconnectDevice() async {
-    await connection?.close().then((value) {
-      dispose();
-    });
-    return connection == null
-        ? DeviceStatus.disconnected
-        : DeviceStatus.connected;
+    try {
+      await connection?.close().then((value) {
+        dispose();
+      });
+      return connection == null
+          ? DeviceStatus.disconnected
+          : DeviceStatus.connected;
+    } on PlatformException catch (e) {
+      debugPrint(e.message);
+      debugPrint(e.stacktrace);
+      return DeviceStatus.notConnected;
+    } catch (e) {
+      return DeviceStatus.notConnected;
+    }
   }
 
   void dispose() {
