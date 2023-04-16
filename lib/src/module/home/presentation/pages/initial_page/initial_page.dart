@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:blue_connection/src/module/home/presentation/bloc/home_event.dart';
-import 'package:blue_connection/src/module/home/presentation/pages/bonded_devices_page.dart';
+import 'package:blue_connection/src/module/home/presentation/pages/bonded_device_page/bonded_devices_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../bloc/home_bloc.dart';
-import '../bloc/home_state.dart';
+import '../../bloc/home_bloc.dart';
+import '../../bloc/home_state.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({super.key});

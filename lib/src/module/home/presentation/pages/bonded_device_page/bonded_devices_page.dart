@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:blue_connection/src/module/home/presentation/pages/control_page.dart';
+import 'package:blue_connection/src/module/home/presentation/pages/control_page/control_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../../shared/presentation/widgets/loading_modal.dart';
-import '../bloc/home_bloc.dart';
-import '../bloc/home_event.dart';
-import '../bloc/home_state.dart';
+import '../../../../shared/presentation/widgets/loading_modal.dart';
+import '../../bloc/home_bloc.dart';
+import '../../bloc/home_event.dart';
+import '../../bloc/home_state.dart';
 
 class BondedDevicePage extends StatefulWidget {
   const BondedDevicePage({super.key});

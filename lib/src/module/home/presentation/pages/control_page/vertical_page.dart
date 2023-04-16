@@ -1,14 +1,9 @@
 import 'dart:async';
-
-import 'package:blue_connection/config/bluetooth_config/device_status.dart';
-import 'package:blue_connection/src/module/Configuration/presentation/pages/config_page.dart';
+import 'package:view/view.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:blue_connection/src/module/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import '../bloc/home_state.dart';
-import 'circular_button.dart';
 
 class VerticalPage extends StatefulWidget {
   const VerticalPage({super.key, required this.device});

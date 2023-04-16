@@ -1,8 +1,7 @@
+import 'package:blue_connection/src/module/home/presentation/pages/control_page/horizontal_page.dart';
+import 'package:blue_connection/src/module/home/presentation/pages/control_page/vertical_page.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/horizontal_page.dart';
-import '../widgets/vertical_page.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({super.key, required this.device});
