@@ -14,7 +14,7 @@ class LoadingModal extends StatelessWidget {
       child: Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(
-            Colors.deepPurple[600]!,
+            Colors.indigo[900]!,
           ),
         ),
       ),

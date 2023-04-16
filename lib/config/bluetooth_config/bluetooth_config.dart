@@ -87,7 +87,7 @@ class BluetoothConfigAdapter {
       for (var element in _devices) {
         _devicesLocal.add(
           Device(
-            name: element.name,
+            name: element.name.isNotEmpty ? element.name : element.id.id,
             status: DeviceStatus.notConnected,
           ),
         );
