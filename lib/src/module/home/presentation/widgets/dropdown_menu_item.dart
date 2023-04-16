@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/blue_device.dart';
+import '../../../shared/domain/entities/blue_device.dart';

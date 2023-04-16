@@ -1,21 +1,18 @@
-part of 'home_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-abstract class HomeEvent {}
+import '../../../shared/domain/entities/blue_device.dart';
 
-class HomeRequestEnableBluetooth extends HomeEvent {}
+part 'home_event.freezed.dart';
 
-class HomeRequesDisableBluetooth extends HomeEvent {}
-
-class HomeRequesBondedDevices extends HomeEvent {}
-
-class HomeRequestBluetoothDispose extends HomeEvent {}
-
-class HomeRequestConnectDevice extends HomeEvent {
-  final Device? device;
-  HomeRequestConnectDevice({
-    required this.device,
-  });
+@freezed
+class HomeEvent with _$HomeEvent {
+  factory HomeEvent.enabledBluetooth() = _HomeEventEnabledBluetooth;
+  factory HomeEvent.disabledBluetooth() = _HomeEventDisabledBluetooth;
+  factory HomeEvent.requestBondedDevices() = _HomeEventRequestBondedDevices;
+  factory HomeEvent.requestBluetoothDispose() =
+      _HomeEventRequestBluetoothDispose;
+  factory HomeEvent.requestConnectDevice({required Device? device}) =
+      _HomeEventRequestConnectDevice;
+  factory HomeEvent.requestDisconnectDevice() =
+      _HomeEventRequestDisconnectDevice;
 }
-
-class HomeRequestDisconnetDevice extends HomeEvent {}

@@ -1,11 +1,13 @@
-import 'package:blue_connection/config/bluetooth_config/bluetooth_controller.dart';
-import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
+import 'dart:async';
+
 import 'package:blue_connection/config/bluetooth_config/device_status.dart';
-import 'package:blue_connection/src/module/home/domain/entities/blue_device.dart';
+import 'package:blue_connection/src/module/Configuration/presentation/pages/config_page.dart';
+import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:blue_connection/src/module/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import '../bloc/home_state.dart';
 import 'circular_button.dart';
 
 class VerticalPage extends StatefulWidget {
@@ -17,78 +19,31 @@ class VerticalPage extends StatefulWidget {
 
 class _VerticalPageState extends State<VerticalPage> {
   final HomeBloc homeBloc = Modular.get<HomeBloc>();
+  late StreamSubscription _subscription;
   Device? _device;
 
   @override
   void initState() {
     super.initState();
-    homeBloc.add(HomeRequestEnableBluetooth());
-  }
 
-  @override
-  void dispose() {
-    homeBloc.add(HomeRequestBluetoothDispose());
-    super.dispose();
+    _subscription = homeBloc.stream.listen(_stateListener);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        IconButton(
+            onPressed: () {
+              Modular.to.push(
+                MaterialPageRoute(builder: (context) => const ConfigPage()),
+              );
+            },
+            icon: const Icon(Icons.settings))
+      ]),
       body: Center(
         child: Column(
           children: <Widget>[
-            Row(
-              children: [
-                //TODO SUBSTITUIR POR CUBIR/BLOC
-
-                BlocBuilder<HomeBloc, HomeState>(
-                  bloc: homeBloc,
-                  builder: (context, state) {
-                    return Switch(
-                      value: homeBloc
-                          .bluetoothController.bluetoothStatus.isEnabled,
-                      onChanged: (bool value) {
-                        if (value) {
-                          homeBloc.add(HomeRequestEnableBluetooth());
-                        } else {
-                          homeBloc.add(HomeRequesDisableBluetooth());
-                        }
-                      },
-                    );
-                  },
-                ),
-                BlocBuilder<HomeBloc, HomeState>(
-                  bloc: homeBloc,
-                  builder: (context, state) {
-                    return DropdownButton(
-                      hint: const Text('Selecione'),
-                      items: getDeviceItems(homeBloc.bondedDevices),
-                      onChanged: (value) {
-                        _device = value;
-                      },
-                      value: homeBloc.bondedDevices.isNotEmpty ? _device : null,
-                    );
-                  },
-                )
-              ],
-            ),
-            BlocBuilder<HomeBloc, HomeState>(
-              bloc: homeBloc,
-              builder: (context, state) {
-                return ElevatedButton(
-                  onPressed: !homeBloc
-                          .bluetoothController.deviceStatus.isConected
-                      ? () {
-                          homeBloc
-                              .add(HomeRequestConnectDevice(device: _device));
-                        }
-                      : () {
-                          homeBloc.add(HomeRequestDisconnetDevice());
-                        },
-                  child: Text(homeBloc.bluetoothController.deviceStatus.name),
-                );
-              },
-            ),
             Padding(
               padding: const EdgeInsets.all(25),
               child: SizedBox(
@@ -160,3 +115,5 @@ List<DropdownMenuItem<Device>> getDeviceItems(List<Device> deviceList) {
   }
   return items;
 }
+
+_stateListener(HomeState state) => state.maybeWhen(orElse: () => {});

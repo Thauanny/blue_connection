@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -5,16 +7,16 @@ import '../bloc/home_bloc.dart';
 import '../widgets/horizontal_page.dart';
 import '../widgets/vertical_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class ControlPage extends StatefulWidget {
+  const ControlPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<HomePage> createState() => _MyHomePageState();
+  State<ControlPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<HomePage> {
+class _MyHomePageState extends State<ControlPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

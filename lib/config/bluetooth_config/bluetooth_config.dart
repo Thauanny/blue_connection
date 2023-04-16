@@ -1,5 +1,5 @@
 import 'package:blue_connection/config/bluetooth_config/device_status.dart';
-import 'package:blue_connection/src/module/home/domain/entities/blue_device.dart';
+import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -34,7 +34,7 @@ class BluetoothConfigAdapter {
   }
 
   Future<BluetoothStatus> requestDisable() async {
-    late BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
+    BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
     await bluetoothSerial.requestDisable().then(
       (value) {
         if (value ?? false) {

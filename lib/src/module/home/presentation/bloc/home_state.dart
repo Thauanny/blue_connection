@@ -1,18 +1,19 @@
-part of 'home_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-abstract class HomeState {}
+part 'home_state.freezed.dart';
 
-class HomeInitial extends HomeState {}
-
-class HomeBluetoothEnabled extends HomeState {}
-
-class HomeBluetoothDisabled extends HomeState {}
-
-class HomeBondedDevicesReceived extends HomeState {}
-
-class HomeBluetoothDisposed extends HomeState {}
-
-class HomeDeviceConnected extends HomeState {}
-
-class HomeDeviceDisconneted extends HomeState {}
+@freezed
+class HomeState with _$HomeState {
+  factory HomeState.empty() = _HomeStateEmpty;
+  factory HomeState.loading() = _HomeStateLoading;
+  factory HomeState.error() = _HomeStateError;
+  factory HomeState.sucessEnabledBluetooth() = _HomeStateSucessEnabledBluetooth;
+  factory HomeState.sucessDisabledBluetooth() =
+      _HomeStateSucessDisabledBluetooth;
+  factory HomeState.sucessBondedDevices() = _HomeStateSucessBondedDevices;
+  factory HomeState.sucessBluetoothDisposed() =
+      _HomeStateSucessBluetoothDisposed;
+  factory HomeState.sucessDeviceConnected() = _HomeStateSucessDeviceConnected;
+  factory HomeState.sucessDeviceDisconnected() =
+      _HomeStateSucessDeviceDisconnected;
+}

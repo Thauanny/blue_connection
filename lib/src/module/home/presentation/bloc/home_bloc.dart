@@ -1,38 +1,45 @@
 import 'package:bloc/bloc.dart';
 import 'package:blue_connection/config/bluetooth_config/bluetooth_controller.dart';
-import 'package:blue_connection/src/module/home/domain/entities/blue_device.dart';
-import 'package:flutter/material.dart';
+import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
+import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 
-part 'home_event.dart';
-part 'home_state.dart';
+import 'home_event.dart';
+import 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   BluetoothController bluetoothController;
   List<Device> bondedDevices = [];
-  HomeBloc(this.bluetoothController) : super(HomeInitial()) {
-    on<HomeEvent>(
-      (event, emit) {
-        if (event is HomeRequestEnableBluetooth) {
-          bluetoothController.requestEnable();
-          emit(HomeBluetoothEnabled());
-        } else if (event is HomeRequesDisableBluetooth) {
-          bluetoothController.requestDisable();
-          emit(HomeBluetoothDisabled());
-        } else if (event is HomeRequesBondedDevices) {
-          bluetoothController.bondedDevices();
-          bondedDevices = bluetoothController.devices;
-          emit(HomeBondedDevicesReceived());
-        } else if (event is HomeRequestBluetoothDispose) {
-          bluetoothController.dispose();
-          emit(HomeBluetoothDisposed());
-        } else if (event is HomeRequestConnectDevice) {
-          bluetoothController.connectDevice(event.device);
-          emit(HomeDeviceConnected());
-        } else if (event is HomeRequestDisconnetDevice) {
-          bluetoothController.disconnectDevice();
-          emit(HomeDeviceDisconneted());
-        }
-      },
-    );
+  HomeBloc(this.bluetoothController) : super(HomeState.empty()) {
+    on(_onEvent);
+  }
+
+  Future<void> _onEvent(HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeState.loading());
+    await event.when(enabledBluetooth: () async {
+      await bluetoothController.requestEnable();
+      bluetoothController.bluetoothStatus == BluetoothStatus.error
+          ? emit(HomeState.error())
+          : emit(HomeState.sucessEnabledBluetooth());
+    }, disabledBluetooth: () async {
+      await bluetoothController.requestDisable();
+      emit(HomeState.sucessDisabledBluetooth());
+    }, requestBondedDevices: () async {
+      await bluetoothController
+          .bondedDevices()
+          .timeout(const Duration(seconds: 5), onTimeout: () {
+        emit(HomeState.error());
+      });
+      bondedDevices = bluetoothController.devices;
+      emit(HomeState.sucessBondedDevices());
+    }, requestBluetoothDispose: () {
+      bluetoothController.dispose();
+      emit(HomeState.sucessBluetoothDisposed());
+    }, requestConnectDevice: (device) async {
+      await bluetoothController.connectDevice(device);
+      emit(HomeState.sucessDeviceConnected());
+    }, requestDisconnectDevice: () async {
+      await bluetoothController.disconnectDevice();
+      emit(HomeState.sucessDeviceDisconnected());
+    });
   }
 }
