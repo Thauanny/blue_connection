@@ -35,7 +35,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ? emit(HomeState.sucessDisabledBluetooth())
           : emit(HomeState.error());
     }, requestBondedDevices: () async {
-      await bluetoothController.bondedDevices().timeout(
+      await bluetoothController.scanDevices().timeout(
         const Duration(seconds: 2),
         onTimeout: () {
           emit(HomeState.error());

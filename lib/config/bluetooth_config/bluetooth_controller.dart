@@ -28,14 +28,14 @@ class BluetoothController {
   }
 
   void dispose() {
-    if (_deviceStatus.isConected) {
+    if (_deviceStatus.connected) {
       bluetoothConfig.dispose();
     }
   }
 
-  Future<void> bondedDevices() async {
+  Future<void> scanDevices() async {
     if (bluetoothStatus == BluetoothStatus.enabled) {
-      await bluetoothConfig.bondedDevices().then(
+      await bluetoothConfig.scanDevices().then(
             (value) => _devices = value,
           );
     }
@@ -43,9 +43,9 @@ class BluetoothController {
 
   Future<void> connectDevice(Device? device) async {
     if (device != null) {
-      if (!_deviceStatus.isConected) {
+      if (!_deviceStatus.connected) {
         await bluetoothConfig
-            .connectDevice(device.address)
+            .connectDevice(device)
             .then((value) => _deviceStatus = value);
       }
     }

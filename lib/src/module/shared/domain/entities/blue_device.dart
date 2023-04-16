@@ -1,12 +1,14 @@
+import 'package:blue_connection/config/bluetooth_config/device_status.dart';
+
 class Device {
   final String name;
   final String address;
-  final bool isConnected;
+  final DeviceStatus status;
 
   Device({
     required this.name,
     required this.address,
-    required this.isConnected,
+    required this.status,
   });
 
   @override

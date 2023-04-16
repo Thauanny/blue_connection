@@ -1,7 +1,7 @@
 enum DeviceStatus { connected, disconnected, notConnected }
 
 extension DeviceStatusExt on DeviceStatus {
-  bool get isConected {
+  bool get connected {
     return this == DeviceStatus.connected ? true : false;
   }
 
