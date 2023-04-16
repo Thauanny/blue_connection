@@ -11,8 +11,8 @@ import '../bloc/home_state.dart';
 import 'circular_button.dart';
 
 class VerticalPage extends StatefulWidget {
-  const VerticalPage({super.key});
-
+  const VerticalPage({super.key, required this.device});
+  final Device device;
   @override
   State<VerticalPage> createState() => _VerticalPageState();
 }
@@ -20,27 +20,18 @@ class VerticalPage extends StatefulWidget {
 class _VerticalPageState extends State<VerticalPage> {
   final HomeBloc homeBloc = Modular.get<HomeBloc>();
   late StreamSubscription _subscription;
-  Device? _device;
 
   @override
   void initState() {
     super.initState();
-
-    _subscription = homeBloc.stream.listen(_stateListener);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-            onPressed: () {
-              Modular.to.push(
-                MaterialPageRoute(builder: (context) => const ConfigPage()),
-              );
-            },
-            icon: const Icon(Icons.settings))
-      ]),
+      appBar: AppBar(
+        title: Text(widget.device.name),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -95,25 +86,3 @@ class _VerticalPageState extends State<VerticalPage> {
     );
   }
 }
-
-List<DropdownMenuItem<Device>> getDeviceItems(List<Device> deviceList) {
-  List<DropdownMenuItem<Device>> items = [];
-
-  if (deviceList.isEmpty) {
-    items.add(
-      const DropdownMenuItem(
-        child: Text('Selecione'),
-      ),
-    );
-  } else {
-    for (var device in deviceList) {
-      items.add(DropdownMenuItem(
-        value: device,
-        child: Text(device.name),
-      ));
-    }
-  }
-  return items;
-}
-
-_stateListener(HomeState state) => state.maybeWhen(orElse: () => {});

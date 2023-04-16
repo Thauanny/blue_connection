@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blue_connection/src/module/home/presentation/pages/control_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -33,25 +34,38 @@ class _BondedState extends State<BondedDevicePage> {
         bloc: homeBloc,
         builder: (context, state) {
           return homeBloc.bondedDevices.isNotEmpty
-              ? ListView(
-                  children: List.generate(
-                    homeBloc.bondedDevices.length,
-                    (index) => ListTile(
-                      leading: const Icon(Icons.bluetooth_audio),
-                      title: Text(homeBloc.bondedDevices[index].name),
-                      trailing: const Icon(Icons.more_vert),
+              ? Center(
+                  child: ListView(
+                    children: List.generate(
+                      homeBloc.bondedDevices.length,
+                      (index) => ListTile(
+                        leading: const Icon(Icons.bluetooth_audio),
+                        title: Text(homeBloc.bondedDevices[index].name),
+                        trailing: const Icon(Icons.more_vert),
+                        onTap: () {
+                          Modular.to.push(
+                            MaterialPageRoute(
+                              builder: (context) => ControlPage(
+                                device: homeBloc.bondedDevices[index],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 )
-              : Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.close),
-                      Text('Nenhum Dispositivo Encontrado'),
-                    ],
-                  ),
-                );
+              : state != HomeState.loading()
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.close),
+                          Text('Nenhum Dispositivo Encontrado'),
+                        ],
+                      ),
+                    )
+                  : const LoadingModal();
         },
       ),
     );
