@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
 import 'package:blue_connection/src/module/home/presentation/pages/control_page/control_page.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,6 @@ class _BondedState extends State<BondedDevicePage> {
   @override
   void initState() {
     _subscription = homeBloc.stream.listen(_stateListener);
-    homeBloc.add(HomeEvent.requestBondedDevices());
     super.initState();
   }
 
@@ -69,56 +69,101 @@ class _BondedState extends State<BondedDevicePage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height - 195,
-                      child: ListView(
-                        children: List.generate(homeBloc.bondedDevices.length,
+                      height: MediaQuery.of(context).size.height * .5,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: List.generate(
+                            homeBloc.bondedDevices.length,
                             (index) {
-                          device = homeBloc.bondedDevices[index];
-                          return ListTile(
-                            contentPadding: const EdgeInsets.only(
-                              left: 20,
-                              right: 20,
-                              top: 20,
-                            ),
-                            leading: Icon(
-                              Icons.bluetooth_audio,
-                              color: Colors.blue[900],
-                              size: 35,
-                            ),
-                            title: Text(
-                              device.name,
-                              style: GoogleFonts.roboto(
-                                fontSize: 18,
-                              ),
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: Colors.blue[900],
-                            ),
-                            onTap: () {
-                              homeBloc.add(
-                                HomeEvent.requestConnectDevice(
-                                  device: device,
+                              device = homeBloc.bondedDevices[index];
+                              return ListTile(
+                                contentPadding: const EdgeInsets.only(
+                                  left: 20,
+                                  right: 20,
+                                  top: 20,
                                 ),
+                                leading: Icon(
+                                  Icons.bluetooth_audio,
+                                  color: Colors.blue[900],
+                                  size: 35,
+                                ),
+                                title: Text(
+                                  device.name,
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: Colors.blue[900],
+                                ),
+                                onTap: () {
+                                  homeBloc.add(
+                                    HomeEvent.requestConnectDevice(
+                                      device: device,
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        }),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 )
-              : state != HomeState.loading()
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.close),
-                          Text('Nenhum Dispositivo Encontrado'),
-                        ],
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.bluetooth_disabled_rounded,
+                        size: 100,
+                        color: Colors.indigo[900],
                       ),
-                    )
-                  : const SizedBox.expand(child: LoadingModal());
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Nenhum Dispositivo Encontrado',
+                        style: GoogleFonts.roboto(
+                          fontSize: 22,
+                          color: Colors.indigo[900],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                            Colors.indigo[900],
+                          ),
+                        ),
+                        onPressed: () {
+                          if (mounted) {
+                            if (homeBloc
+                                .bluetoothController.bluetoothStatus.enabled) {
+                              homeBloc.add(HomeEvent.requestBondedDevices());
+                            }
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                            'Pesquisar Novamente',
+                            style: GoogleFonts.roboto(
+                              fontSize: 22,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
         },
       ),
     );
@@ -134,34 +179,19 @@ class _BondedState extends State<BondedDevicePage> {
             );
           }
         },
-        sucessBondedDevices: () {
-          if (mounted) {
-            Modular.to.pop();
-            if (homeBloc.bondedDevices.isNotEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                      'Dispositivos Encontrados: ${homeBloc.bondedDevices.length}'),
-                  backgroundColor: Colors.green[600],
-                ),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Nenhum dispositivo Encontrado'),
-                  backgroundColor: Colors.yellow[900],
-                ),
-              );
-            }
-          }
-        },
+        sucessBondedDevices: () => Modular.to.pop(),
         sucessDeviceConnected: () {
           if (mounted) {
             Modular.to.pop();
 
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('Dispositivo Conectado: ${device.name}'),
+                content: Text(
+                  'Dispositivo Conectado: ${device.name}',
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                  ),
+                ),
                 backgroundColor: Colors.indigo[900],
               ),
             );
@@ -196,7 +226,12 @@ class _BondedState extends State<BondedDevicePage> {
             Modular.to.pop();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: const Text('Um Erro aconteceu, tente novamente!'),
+                content: Text(
+                  'Um Erro aconteceu, tente novamente!',
+                  style: GoogleFonts.roboto(
+                    fontSize: 16,
+                  ),
+                ),
                 backgroundColor: Colors.red[900],
               ),
             );

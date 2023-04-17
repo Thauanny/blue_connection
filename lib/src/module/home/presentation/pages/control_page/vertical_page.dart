@@ -1,9 +1,12 @@
 import 'dart:async';
-import 'package:view/view.dart';
+import 'package:blue_connection/src/module/home/data/models/joystick_item.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:blue_connection/src/module/home/presentation/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'widgets/joystick.dart';
 
 class VerticalPage extends StatefulWidget {
   const VerticalPage({super.key, required this.device});
@@ -25,58 +28,24 @@ class _VerticalPageState extends State<VerticalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.device.name),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    //todo: verificar tamanho
-                    CircularButton(
-                      height: 100,
-                      width: 100,
-                      onTap: () {},
-                      icon: Icons.keyboard_arrow_up_rounded,
-                      backgroundColor: Colors.green,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircularButton(
-                          height: 100,
-                          width: 100,
-                          onTap: () {},
-                          icon: Icons.keyboard_arrow_left_rounded,
-                          backgroundColor: Colors.red,
-                        ),
-                        CircularButton(
-                          height: 100,
-                          width: 100,
-                          onTap: () {},
-                          icon: Icons.keyboard_arrow_right_rounded,
-                          backgroundColor: Colors.blue,
-                        ),
-                      ],
-                    ),
-                    CircularButton(
-                      height: 100,
-                      width: 100,
-                      onTap: () {},
-                      icon: Icons.keyboard_arrow_down_rounded,
-                      backgroundColor: Colors.yellow[700]!,
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
+        toolbarHeight: 80,
+        backgroundColor: Colors.indigo[900],
+        title: Text(
+          widget.device.name,
+          style: GoogleFonts.roboto(
+            fontSize: 22,
+            color: Colors.white,
+          ),
         ),
+      ),
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              child: PadButtonsView(buttonsPadding: 0, size: 250),
+            )),
       ),
     );
   }

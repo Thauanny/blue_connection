@@ -41,6 +41,7 @@ dependencies:
   google_fonts: ^4.0.3
   #flutter pub run build_runner build --delete-conflicting-outputs
   freezed: ^2.3.2
+  flutter_spinkit: ^5.1.0
   view:
     path: ../view/view  
 

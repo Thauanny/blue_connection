@@ -1,12 +1,12 @@
 import 'dart:async';
-
-import 'package:blue_connection/src/module/home/presentation/bloc/home_event.dart';
-import 'package:blue_connection/src/module/home/presentation/pages/bonded_device_page/bonded_devices_page.dart';
+import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
+import 'package:blue_connection/src/module/shared/presentation/widgets/nearby_devices._searching.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../bloc/home_bloc.dart';
+import '../../bloc/home_event.dart';
 import '../../bloc/home_state.dart';
 
 class InitialPage extends StatefulWidget {
@@ -22,46 +22,35 @@ class _InitialPageState extends State<InitialPage> {
   @override
   void initState() {
     _subscription = homeBloc.stream.listen(_stateListener);
+    homeBloc.add(HomeEvent.enabledBluetooth());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.indigo[900],
-          statusBarIconBrightness: Brightness.light,
-          statusBarBrightness: Brightness.light,
-        ),
-        toolbarHeight: 0,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  homeBloc.add(HomeEvent.enabledBluetooth());
-                },
-                child: const Text('Request Enabled'))
-          ],
-        ),
-      ),
-    );
+    return const NearbyDevivesSearching();
   }
 
   _stateListener(HomeState state) => state.maybeWhen(
         sucessEnabledBluetooth: () {
           if (mounted) {
-            Modular.to.push(
-              MaterialPageRoute(builder: (context) => const BondedDevicePage()),
-            );
+            if (homeBloc.bluetoothController.bluetoothStatus.enabled) {
+              homeBloc.add(HomeEvent.requestBondedDevices());
+            }
           }
         },
-        error: () {
-          print('error');
-        },
+        sucessBondedDevices: () => Modular.to.navigate('/devices'),
+        error: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Um Erro aconteceu, tente novamente!',
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.red[900],
+          ),
+        ),
         orElse: () => {},
       );
 }
