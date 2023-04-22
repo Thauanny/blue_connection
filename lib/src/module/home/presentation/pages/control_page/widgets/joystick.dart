@@ -2,8 +2,7 @@ import 'package:blue_connection/src/module/home/data/models/joystick_item.dart';
 import 'package:blue_connection/src/module/shared/utils/joystick_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'circle_view.dart';
+import 'package:view/src/buttons/button_circular_component.dart';
 
 class PadButtonsView extends StatelessWidget {
   final double size;
@@ -77,14 +76,15 @@ class PadButtonsView extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(buttonsPadding!),
-        child: CircleView(
+        child: CircularButton(
+          backgroundColor: paddButton.backgroundColor,
+          width: innerCircleSize,
+          height: innerCircleSize,
+          icon: paddButton.buttonIcon,
           iconSize: paddButton.size,
           onTap: () {
             debugPrint(" ${[paddButton.index]}");
           },
-          size: innerCircleSize,
-          color: paddButton.backgroundColor,
-          buttonIcon: paddButton.buttonIcon,
         ),
       ),
     );

@@ -46,25 +46,25 @@ class _VerticalPageState extends State<VerticalPage> {
             size: MediaQuery.of(context).size.height * 0.45,
             buttons: [
               PadButtonItem(
-                size: MediaQuery.of(context).size.height * 0.1350,
+                size: MediaQuery.of(context).size.height * 0.100,
                 index: 0,
                 backgroundColor: Colors.blue[600]!,
                 buttonIcon: Icons.keyboard_arrow_right_outlined,
               ),
               PadButtonItem(
-                size: MediaQuery.of(context).size.height * 0.1350,
+                size: MediaQuery.of(context).size.height * 0.100,
                 index: 1,
                 backgroundColor: Colors.yellow[700]!,
                 buttonIcon: Icons.keyboard_arrow_down_outlined,
               ),
               PadButtonItem(
-                size: MediaQuery.of(context).size.height * 0.1350,
+                size: MediaQuery.of(context).size.height * 0.100,
                 index: 2,
                 backgroundColor: Colors.red[600]!,
                 buttonIcon: Icons.keyboard_arrow_left_outlined,
               ),
               PadButtonItem(
-                size: MediaQuery.of(context).size.height * 0.1350,
+                size: MediaQuery.of(context).size.height * 0.100,
                 index: 3,
                 backgroundColor: Colors.green[600]!,
                 buttonIcon: Icons.keyboard_arrow_up_outlined,

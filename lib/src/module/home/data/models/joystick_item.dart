@@ -7,7 +7,6 @@ class PadButtonItem {
 
   final Color backgroundColor;
 
-  final Color? pressedColor;
   final double size;
 
   const PadButtonItem({
@@ -15,6 +14,5 @@ class PadButtonItem {
     required this.index,
     required this.buttonIcon,
     required this.backgroundColor,
-    this.pressedColor = Colors.lightBlueAccent,
   });
 }
