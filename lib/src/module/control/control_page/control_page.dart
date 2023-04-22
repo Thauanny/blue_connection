@@ -1,7 +1,7 @@
 import 'package:blue_connection/src/module/home/presentation/bloc/home_bloc.dart';
 import 'package:blue_connection/src/module/home/presentation/bloc/home_event.dart';
-import 'package:blue_connection/src/module/home/presentation/pages/control_page/horizontal_page.dart';
-import 'package:blue_connection/src/module/home/presentation/pages/control_page/vertical_page.dart';
+import 'package:blue_connection/src/module/control/pages/horizontal_page.dart';
+import 'package:blue_connection/src/module/control/pages/vertical_page.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

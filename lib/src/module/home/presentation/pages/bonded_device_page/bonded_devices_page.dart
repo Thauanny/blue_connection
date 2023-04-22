@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:blue_connection/config/bluetooth_config/enum/bluetooth_status.dart';
-import 'package:blue_connection/src/module/home/presentation/pages/control_page/control_page.dart';
+import 'package:blue_connection/src/module/control/control_page/control_page.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -194,6 +194,7 @@ class _BondedState extends State<BondedDevicePage> {
                 backgroundColor: Colors.indigo[900],
               ),
             );
+            //todo: colocar por rotas
             Modular.to.push(
               MaterialPageRoute(
                 builder: (context) => ControlPage(
