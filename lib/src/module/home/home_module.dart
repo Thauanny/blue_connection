@@ -1,4 +1,4 @@
-import 'package:blue_connection/config/bluetooth_config/bluetooth_controller.dart';
+import 'package:blue_connection/config/bluetooth_config/bluetooth_controller/bluetooth_controller.dart';
 import 'package:blue_connection/src/module/home/presentation/pages/bonded_device_page/bonded_devices_page.dart';
 import 'package:blue_connection/src/module/home/presentation/pages/initial_page/initial_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';

@@ -38,14 +38,40 @@ class _VerticalPageState extends State<VerticalPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              child: PadButtonsView(buttonsPadding: 0, size: 250),
-            )),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: PadButtonsView(
+            buttonsPadding: 10,
+            size: MediaQuery.of(context).size.height * 0.45,
+            buttons: [
+              PadButtonItem(
+                size: MediaQuery.of(context).size.height * 0.1350,
+                index: 0,
+                backgroundColor: Colors.blue[600]!,
+                buttonIcon: Icons.keyboard_arrow_right_outlined,
+              ),
+              PadButtonItem(
+                size: MediaQuery.of(context).size.height * 0.1350,
+                index: 1,
+                backgroundColor: Colors.yellow[700]!,
+                buttonIcon: Icons.keyboard_arrow_down_outlined,
+              ),
+              PadButtonItem(
+                size: MediaQuery.of(context).size.height * 0.1350,
+                index: 2,
+                backgroundColor: Colors.red[600]!,
+                buttonIcon: Icons.keyboard_arrow_left_outlined,
+              ),
+              PadButtonItem(
+                size: MediaQuery.of(context).size.height * 0.1350,
+                index: 3,
+                backgroundColor: Colors.green[600]!,
+                buttonIcon: Icons.keyboard_arrow_up_outlined,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

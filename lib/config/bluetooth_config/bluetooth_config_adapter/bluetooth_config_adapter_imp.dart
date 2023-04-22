@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:blue_connection/config/bluetooth_config/device_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/bluetooth_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/device_status.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,19 +9,20 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart'
     hide BluetoothDevice, BluetoothState;
 
-import 'bluetooth_status.dart';
+import 'bluetooth_config_adapter.dart';
 
-class BluetoothConfigAdapter {
+class BluetoothConfigAdapterImpl implements BluetoothConfigAdapter {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   final FlutterBluetoothSerial bluetoothSerial =
       FlutterBluetoothSerial.instance;
   List<BluetoothDevice> _devices = [];
   late StreamSubscription _subscriptionScan;
   late StreamSubscription _subscriptionConnect;
-  BluetoothConfigAdapter._();
+  BluetoothConfigAdapterImpl._();
 
-  static final instance = BluetoothConfigAdapter._();
+  static final instance = BluetoothConfigAdapterImpl._();
 
+  @override
   Future<BluetoothStatus> requestEnable() async {
     BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
     try {
@@ -45,6 +47,7 @@ class BluetoothConfigAdapter {
     }
   }
 
+  @override
   Future<BluetoothStatus> requestDisable() async {
     BluetoothStatus bluetoothStatus = BluetoothStatus.unknow;
     try {
@@ -68,6 +71,7 @@ class BluetoothConfigAdapter {
     }
   }
 
+  @override
   Future<List<Device>> scanDevices() async {
     List<Device> _devicesLocal = [];
 
@@ -103,6 +107,7 @@ class BluetoothConfigAdapter {
     }
   }
 
+  @override
   Future<DeviceStatus> connectDevice(Device device) async {
     try {
       late DeviceStatus status;
@@ -129,6 +134,7 @@ class BluetoothConfigAdapter {
     }
   }
 
+  @override
   Future<DeviceStatus> disconnectDevice(Device device) async {
     try {
       late DeviceStatus status;

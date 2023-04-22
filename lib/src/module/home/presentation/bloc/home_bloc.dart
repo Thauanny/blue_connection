@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:blue_connection/config/bluetooth_config/bluetooth_controller.dart';
-import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
-import 'package:blue_connection/config/bluetooth_config/device_status.dart';
+import 'package:blue_connection/config/bluetooth_config/bluetooth_controller/bluetooth_controller.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/bluetooth_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/device_status.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 
 import 'home_event.dart';

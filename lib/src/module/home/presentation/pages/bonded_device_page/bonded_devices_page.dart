@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/bluetooth_status.dart';
 import 'package:blue_connection/src/module/home/presentation/pages/control_page/control_page.dart';
 import 'package:blue_connection/src/module/shared/domain/entities/blue_device.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';

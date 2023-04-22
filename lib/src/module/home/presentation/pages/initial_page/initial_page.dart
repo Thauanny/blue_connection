@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:blue_connection/config/bluetooth_config/bluetooth_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/bluetooth_status.dart';
 import 'package:blue_connection/src/module/shared/presentation/widgets/nearby_devices._searching.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

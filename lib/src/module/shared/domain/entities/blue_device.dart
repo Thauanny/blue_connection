@@ -1,4 +1,4 @@
-import 'package:blue_connection/config/bluetooth_config/device_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/device_status.dart';
 
 class Device {
   final String name;

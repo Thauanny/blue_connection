@@ -1,10 +1,12 @@
-import '../../src/module/shared/domain/entities/blue_device.dart';
-import 'bluetooth_config.dart';
-import 'bluetooth_status.dart';
-import 'device_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/bluetooth_status.dart';
+import 'package:blue_connection/config/bluetooth_config/enum/device_status.dart';
+
+import '../../../src/module/shared/domain/entities/blue_device.dart';
+import '../bluetooth_config_adapter/bluetooth_config_adapter.dart';
+import '../bluetooth_config_adapter/bluetooth_config_adapter_imp.dart';
 
 class BluetoothController {
-  BluetoothConfigAdapter bluetoothConfig = BluetoothConfigAdapter.instance;
+  BluetoothConfigAdapter bluetoothConfig = BluetoothConfigAdapterImpl.instance;
   List<Device> _devices = <Device>[];
 
   BluetoothStatus _bluetoothStatus = BluetoothStatus.disabled;
@@ -26,7 +28,7 @@ class BluetoothController {
   }
 
   void dispose() {
-    bluetoothConfig.dispose();
+    BluetoothConfigAdapterImpl.instance.dispose();
   }
 
   Future<void> scanDevices() async {

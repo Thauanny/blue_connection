@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CircleView extends StatelessWidget {
   final double size;
+  final double iconSize;
 
   final Color color;
 
-  final List<BoxShadow> boxShadow;
+  final IconData buttonIcon;
 
-  final Border border;
+  final VoidCallback onTap;
 
-  late Image? buttonImage;
-
-  late Icon? buttonIcon;
-
-  late String? buttonText;
-
-  CircleView({
+  const CircleView({
+    super.key,
+    required this.iconSize,
     required this.size,
-    this.color = Colors.transparent,
-    required this.boxShadow,
-    required this.border,
-    buttonImage,
-    buttonIcon,
-    buttonText,
-  }) {
-    this.buttonImage = buttonImage;
-    this.buttonIcon = buttonIcon;
-    this.buttonText = buttonText;
-  }
+    required this.color,
+    required this.buttonIcon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,96 +28,14 @@ class CircleView extends StatelessWidget {
         color: color,
         shape: BoxShape.circle,
       ),
-      child: Center(
-        child: buttonIcon ??
-            ((buttonImage != null)
-                ? buttonImage
-                : (buttonText != null)
-                    ? Text(buttonText!)
-                    : null),
+      child: IconButton(
+        onPressed: onTap,
+        icon: Icon(
+          buttonIcon,
+          size: iconSize,
+          color: Colors.white,
+        ),
       ),
     );
   }
-
-  factory CircleView.joystickCircle(double? size, Color? color) => CircleView(
-        size: size ?? 40,
-        color: color ?? Colors.black,
-        border: Border.all(
-          color: Colors.black45,
-          width: 4.0,
-          style: BorderStyle.solid,
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 8.0,
-            blurRadius: 8.0,
-          )
-        ],
-      );
-
-  factory CircleView.joystickInnerCircle(double? size, Color? color) =>
-      CircleView(
-        size: size ?? 40,
-        color: color ?? Colors.black,
-        border: Border.all(
-          color: Colors.black26,
-          width: 2.0,
-          style: BorderStyle.solid,
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 8.0,
-            blurRadius: 8.0,
-          )
-        ],
-      );
-
-  factory CircleView.padBackgroundCircle(double? size, Color? backgroundColour,
-          borderColor, Color? shadowColor,
-          {double? opacity}) =>
-      CircleView(
-        size: size ?? 40,
-        color: backgroundColour ?? Colors.black,
-        border: Border.all(
-          color: borderColor,
-          width: 4.0,
-          style: BorderStyle.solid,
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: shadowColor ?? Colors.amber,
-            spreadRadius: 8.0,
-            blurRadius: 8.0,
-          )
-        ],
-      );
-
-  factory CircleView.padButtonCircle(
-    double? size,
-    Color? color,
-    Image? image,
-    Icon? icon,
-    String? text,
-  ) =>
-      CircleView(
-        size: size ?? 40,
-        color: color ?? Colors.black,
-        buttonImage: image,
-        buttonIcon: icon,
-        buttonText: text,
-        border: Border.all(
-          color: Colors.black26,
-          width: 2.0,
-          style: BorderStyle.solid,
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 8.0,
-            blurRadius: 8.0,
-          )
-        ],
-      );
 }
